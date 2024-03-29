@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Writing App</title>
+  <style>
+    * {
+      background-color: #002b36;
+
+    }
+
+    /* Some basic styling */
+    #output {
+      background-color: #002b36;
+
+      color: whitesmoke;
+      padding: 30px;
+      width: 90%;
+      min-height: 90p%;
+      font-family: courier;
+      /* Use a monospace font for a typewriter-like feel */
+      white-space: pre-wrap;
+      /* Preserve line breaks and wrap text */
+      cursor: text;
+      /* Set cursor to text */
+      overflow-y: auto;
+      /* Enable vertical scroll if content overflows */
+    }
+
+    /* Blinking cursor animation */
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 1px;
+      height: 16px;
+      background-color: antiquewhite;
+      animation: blink 1s step-end infinite;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="output"></div>
+
+  <script>
+    const outputDiv = document.getElementById('output');
+    const cursorElement = document.createElement('span');
+    cursorElement.classList.add('cursor');
+    outputDiv.appendChild(cursorElement);
+
+    let textContent = '';
+    let cursorVisible = true;
+
+    function updateText() {
+      outputDiv.textContent = textContent;
+      if (cursorVisible) {
+        outputDiv.appendChild(cursorElement);
+      } else {
+        cursorElement.remove();
+      }
+    }
+
+    function toggleCursor() {
+      cursorVisible = !cursorVisible;
+      updateText();
+    }
+
+    document.addEventListener('keydown', function (event) {
+      const key = event.key;
+
+      if (key === 'Backspace') {
+        textContent = textContent.slice(0, -1);
+      } else if (key.length === 1) {
+        textContent += key;
+      }
+
+      toggleCursor();
+      updateText();
+    });
+
+    // Full screen mode
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'F' && event.ctrlKey) {
+        toggleFullScreen();
+      }
+    });
+  </script>
+
+</body>
+
+</html>
